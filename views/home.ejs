@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	
+	    	<script src="/js/sweet-alert.js"></script>
+<script>
+function homeController($scope,$http,$location) {
+	$scope.getSearch = function() {
+    	$http({
+            method: 'GET',
+            url: '/verifyUser',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success"){
+            	//alert('hi');
+            	window.location = '/getSearch';
+            }           		
+            else
+            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+        }).error(function(error){
+        	sweetAlert("Oops! ",error,"error");
+        });
+    };
+    
+	$scope.signOut = function() {
+    	$http({
+            method: 'GET',
+            url: '/signout',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success")
+           		window.location = '/';
+            else
+            	alert("Oops!",response.msg,"error");
+        }).error(function(error){
+        	alert("Oops! some thing went wrong",error,"error");
+        });
+    };
+    
+    
+    $scope.showProfile = function(){
+    	$http({
+            method: 'GET',
+            url: '/verifyUser',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success"){
+            	//alert('hi');
+            	window.location = '/showProfile';
+            }           		
+            else
+            	alert("Oops! some thing went wrong",response.msg,"error");
+        }).error(function(error){
+        	alert("Oops! ",error,"error");
+        });
+    };
+	$scope.showHomepage = function (){
+		$http({
+	        method: 'GET',
+	        url: '/verifyUser',
+	    //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	        
+	     }).success(function(response){
+	       
+	        alert(JSON.stringify(response));
+	        
+	        if(response.status == "success")
+	       		window.location = '/successLogin';
+	        else
+	        	alert("Oops! some thing went wrong",response.msg,"error");
+	    }).error(function(error){
+	    	alert("Oops! ",error,"error");
+	    });
+	};	
+
+    
+    $scope.getConnect = function(){
+    	$http({
+            method: 'GET',
+            url: '/verifyUser',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success")
+           		window.location = '/getConnect';
+            else
+            	alert("Oops! ",response.msg,"error");
+        }).error(function(error){
+        	alert("Oops! some thing went wrong",error,"error");
+        });
+    };
+    
+}
+</script>
+  		<link rel="stylesheet" href="/stylesheets/sweet-alert.css">
+ </head>
+  <body ng-app="" ng-controller="homeController" >
+  
+  
+  <div class="container-fluid" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;">
+    <div class="row" style="background-color:lavender;">
+    <div class="col-sm-2" >
+  <p></p>
+      <img src="/Photos/logo.png"  >
+    </div>
+   <div class="col-sm-10" >
+      <p></p>
+
+        <a  href  ng-click="showHomepage()">Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="showProfile()">Edit Profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="getConnect()">Connect&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="getSearch()">Search Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="signOut()">Sign Out</a>
+      
+    </div>
+    
+  </div>
+
+
+<div><h2 class="inline">Welcome <%= userdetails.first_name %></h2><h4 class="floatr inline">Last Logged in : <%= userdetails.reqdate %></h4></div>
+<div class="container" id="profile">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+                       
+                          <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-4">
+                            <img src="/Photos/<%= userdetails.first_name %>_large.jpg">
+                            
+                           </div>
+                           <div class="col-sm-8" >
+                           <b><font size="5"><%=userdetails.first_name%>&nbsp;&nbsp;<%=userdetails.last_name%></b></font>&nbsp;&nbsp;&nbsp;
+                           <p></p>
+                           <label id="status"><font size="4"><%=userdetails.location%><p></font>&nbsp;&nbsp;&nbsp;</p></label></font>
+                           <% for(var i=0 ;i <exp.length ; i++){%>
+                           <p> <font color="grey" size="3">Employeer: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= exp[i].company_name %></p></font>
+                           <% } %>
+                            <% for(var i=0 ;i <exp.length ; i++){%>
+                           <p> <font color="grey" size="3">Education: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%= edu[i].univ_name %></p></font>
+                           <% } %>
+                           </br>
+                          
+                           </div>
+                                   
+                              </p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+
+ <div class="container"id="summary">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+                       
+                          <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-12">
+                          <p><font color="grey" size="4"><b>Summary</b></font>&nbsp;&nbsp;&nbsp;</p>
+                          <p><font  size="3"><%=userdetails.summary%></p></font>                           
+                              
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>             
+            </div>
+
+   <div class="container" id="skills">
+    
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                    
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+    					<div class="row bshadow">                   
+                          <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-12">  
+                          <p><font color="grey" size="4"><b>Skills & Endorsements</b></font>&nbsp;&nbsp;&nbsp;</p>
+                          <% for(var i=0 ;i <skill.length ; i++){%>
+                           
+                           <p><font size="3"><%=  skill[i].skillset %></font></p>
+                          
+                            <% } %> 
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>            
+            </div>
+            </div>
+            
+ 
+	 <div class="container" id="experience">
+	 
+    
+                <div class="row">
+                
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+                         	<div class="row bshadow">   
+                          <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-12">
+                          <p><font color="grey" size="4"><b>Experiences</b></font></p>
+                          <% for(var i=0 ;i <exp.length ; i++){%>  
+                           <p><font color="grey" size="4"><b>Experience <%= i+1 %></b></font></p>
+                           <p></p>
+                           <p> <font size="3">CompanyName: <%= exp[i].company_name %></font>&nbsp;&nbsp;&nbsp;</p>
+                            <p> <font size="3" color="grey">Title: <%= exp[i].title %></font></p>
+                             <p> <font size="3" color="grey">Location: <%= exp[i].location %>"</font></p>
+                              <p> <font size="3" color="grey">Start Date: <%= exp[i].start_date %>"</font></p>
+                               <p> <font size="3" color="grey">End Date:<%= exp[i].end_date %>"</font></p>
+                                <p> <font size="3" color="grey">Description:<%= exp[i].description %>"</font></p>
+                        
+                          </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+              </div>    
+	 </div>
+	 </div>
+	 
+	        <div class="container" id="projects">
+      
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+                       <div class="row bshadow">
+                          <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-12">  
+                          <p><font color="grey" size="4"><b>Project </b></font></p>
+                          <% for(var i=0 ;i <prj.length ; i++){%> 
+                           <p><font color="grey" size="4"><b>Project <%= i+1%></b></font></p>
+                           <p><font  size="3">ProjectName: <%= prj[i].name %></font></p>
+                           <p><font color="grey" size="3">Company: <%= prj[i].company %></font></p>
+                           <p><font color="grey" size="3">Start Date: <%= prj[i].startdate %></font></p>
+                           <p><font color="grey" size="3">End Date: <%= prj[i].enddate %></font></p>
+                           <p><font color="grey" size="3">Description: <%= prj[i].description %></font></p>
+                           
+                           
+                             
+                          </div>
+                        </div>
+                    </div>
+                    <% } %> 
+                </div>
+              </div>          
+                
+            </div>
+            </div>
+	          
+	                 <div class="container" id="education">
+    
+                <div class="row" id="exp_row">
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+                       
+                                                 <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-12">
+                          <p><font color="grey" size="4"><b>Education</b></font></p>  
+                            <% for(var i=0 ;i <edu.length ; i++){%> 
+                           <p><font color="grey" size="4"><b>Education <%= i+1%></b></font></p>
+                           <p></p>
+                           <p><font  size="3">School: <%= edu[i].univ_name %></font></p>
+                           <p><font color="grey" size="3">Field: <%= edu[i].field %></font></p>
+                           <p><font color="grey" size="3">Degree level: <%= edu[i].level %></font></p>
+                           <p><font color="grey" size="3">Start Date: <%= edu[i].start_date %></font></p>
+                           <p><font color="grey" size="3">End Date: <%= edu[i].end_date %></font></p>
+                           <p><font color="grey" size="3">Description: <%= edu[i].description %></font></p>
+
+                        
+                             
+                             
+                             
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div> 
+              <% } %>            
+            </div>    
+         </div>
+            
+	           
+	
+
+
+
+
+ 
+  </body>
+  
+  <script>
+
+  </script>
+</html>

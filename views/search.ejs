@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <script src="/js/sweet-alert.js"></script>
+     <link rel="stylesheet" href="/stylesheets/sweet-alert.css">
+     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+     
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	
+	<script>
+	
+function searchController($scope,$http,$location) {
+	    
+		$scope.signOut = function() {
+	    	$http({
+	            method: 'GET',
+	            url: '/signout',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success")
+	           		window.location = '/';
+	            else
+	            	alert("Oops!",response.msg,"error");
+	        }).error(function(error){
+	        	alert("Oops! some thing went wrong",error,"error");
+	        });
+	    };
+	    
+	   $scope.acceptConn = function(usrid){
+		   var temp = usrid;
+	    	$http({
+	            method: 'POST',
+	            url: '/acceptConn',
+	          data: { "username": temp,}
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success"){
+	            	alert("Succesfully connected","","success");
+	            location.reload();
+	            }
+	            else
+	            	alert("Oops! some thing went wrong",response.msg,"error");
+	        }).error(function(error){
+	        	alert("Oops! ",error,"error");
+	        });
+	    };
+	    
+		$scope.getSearch = function() {
+	    	$http({
+	            method: 'GET',
+	            url: '/verifyUser',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success"){
+	            	//alert('hi');
+	            	window.location = '/getSearch';
+	            }           		
+	            else
+	            	alert("Oops! some thing went wrong",response.msg,"error");
+	        }).error(function(error){
+	        	alert("Oops! ",error,"error");
+	        });
+	    };    
+		   $scope.sendConnReq = function(usrid){
+			   var temp = usrid;
+		    	$http({
+		            method: 'POST',
+		            url: '/sendConnReq',
+		          data: { "touserid": temp,}
+		            
+		         }).success(function(response){
+		           
+		            alert(JSON.stringify(response));
+		            
+		            if(response.status == "success"){
+		            	alert("Request Sent","","success");
+		            location.reload();
+		            
+		            }
+		            else
+		            	alert("Oops! some thing went wrong",response.msg,"error");
+		        }).error(function(error){
+		        	alert("Oops! ",error,"error");
+		        });
+		    };	  
+			   $scope.rejectConn = function(usrid){
+				   var temp = usrid;
+			    	$http({
+			            method: 'POST',
+			            url: '/rejectConn',
+			          data: { "fromuserid": temp,}
+			            
+			         }).success(function(response){
+			           
+			            alert(JSON.stringify(response));
+			            
+			            if(response.status == "success"){
+			            	sweetAlert("Request Sent","","success");
+			            location.reload();
+			            }
+			            else
+			            	alert("Oops! some thing went wrong",response.msg,"error");
+			        }).error(function(error){
+			        	alert("Oops! ",error,"error");
+			        });
+			    };
+	    $scope.showProfile = function(){
+	    	$http({
+	            method: 'GET',
+	            url: '/verifyUser',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success")
+	           		window.location = '/showProfile';
+	            else
+	            	alert("Oops! some thing went wrong",response.msg,"error");
+	        }).error(function(error){
+	        	alert("Oops! ",error,"error");
+	        });
+	    };
+		$scope.showHomepage = function (){
+			$http({
+		        method: 'GET',
+		        url: '/verifyUser',
+		    //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+		        
+		     }).success(function(response){
+		       
+		        alert(JSON.stringify(response));
+		        
+		        if(response.status == "success")
+		       		window.location = '/successLogin';
+		        else
+		        	alert("Oops! some thing went wrong",response.msg,"error");
+		    }).error(function(error){
+		    	alert("Oops! ",error,"error");
+		    });
+		};	
+	
+	    
+	    $scope.getConnect = function(){
+	    	$http({
+	            method: 'GET',
+	            url: '/verifyUser',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success")
+	           		window.location = '/getConnect';
+	            else
+	            	alert("Oops! ",response.msg,"error");
+	        }).error(function(error){
+	        	alert("Oops! some thing went wrong",error,"error");
+	        });
+	    };
+	    $scope.getRecords = function(){
+	    	//alert('hi');
+	    	var name = $scope.search;
+	    	//alert(name);
+	    	if(name){
+		    	$http({
+		            method: 'POST',
+		            url: '/getRecords',
+		           data: { "name": $scope.search}
+		            
+		         }).success(function(response){
+		           
+		            //alert(JSON.stringify(response));
+		            
+		            if(response.status == "success"){
+		            	
+		            	var rec = 	response.records;
+		            	var result = response.result;
+		            	var text = '<ol>';
+		            	for(var i=0 ; i< result.length;i++){
+		            		text = text+  "<li><h4 class='h4pad' ><a href='/disProfile?userid="+result[i].user_id+"' target='_blank' >"+result[i].first_name +" " +result[i].last_name +"</a> </h4></li>"; 
+		            	}
+		            	var text = text+  ' </ol>';
+		            	
+		            	$('#displayrec').html(text);
+		            }
+		           		
+		            else{
+		            	alert("Oops! ",response.msg,"error");
+		            }
+		        }).error(function(error){
+		        	alert("Oops! some thing went wrong",error,"error");
+		        });    		
+	    	}else{
+	    		$('#displayrec').html("");
+	    		
+	    	}
+
+	    };	    
+	}
+
+	
+	</script>
+ </head>
+  <body ng-app="" ng-controller="searchController" " onload="sessionRestore()">
+  
+  <div class="container-fluid" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;">
+    <div class="row" style="background-color:lavender;">
+    <div class="col-sm-2" >
+  <p></p>
+      <img src="/Photos/logo.png"  >
+    </div>
+   <div class="col-sm-10" >
+      <p></p>
+
+        <a  href  ng-click="showHomepage()">Home&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="showProfile()">Edit Profile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="getConnect()">Connect&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="getSearch()">Search Users&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+        <a href ng-click="signOut()">Sign Out</a>
+      
+    </div>
+    
+  </div>
+<p></p>
+<p></p>
+
+<div class="container" id="profile">
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8 col-md8">
+                     </br>
+                        </br>
+                        <div class="well well-sm">
+                       
+                          <div class="row" style="margin-left: 0px;">
+                          <div class="col-sm-2"">
+                          	<img src="./Photos/search.png" style="width:5em;height:5em">
+                          </div>
+                           <div class="col-sm-10" >
+							<input ng-model="search" ng-keyup="getRecords()" class="form-control input-lg" type="text" placeholder="Search" name="search"   />
+			   		</div>
+		<div class="col-sm-12">	   		
+		<span id="displayrec"> </span></div>
+                          
+                           </div>
+                                   
+                              </p>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+    
+   
+    
+    
+        
+        
+
+
+ 
+  </body>
+</html>
