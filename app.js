@@ -9,7 +9,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var session = require('express-session');
 var app = express();
-
+var port=process.env.PORT || 8080;
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -37,7 +37,7 @@ app.use(function(req, res, next) {
 
 // development error handler
 // will print stacktrace
-if (app.get('env') === 'development') {
+/*if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render('error', {
@@ -45,7 +45,7 @@ if (app.get('env') === 'development') {
             error: err
         });
     });
-}
+}*/
 
 // production error handler
 // no stacktraces leaked to user
@@ -57,10 +57,10 @@ app.use(function(err, req, res, next) {
     });
 });
 
-var port=process.env.PORT || 8080;
+
 
 app.listen(port, function(){
-	  console.log('Express server listening on port ' + app.get('port'));
+	  console.log('Express server listening on port ' + port);
 	});
 
 
