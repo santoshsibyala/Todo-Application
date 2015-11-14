@@ -6,7 +6,7 @@ function getConnection(){
 	    host     : 'localhost',
 	    user     : 'root',
 	    password : 'password',
-	    database : 'linkedin'
+	    database : 'todoapp'
 	});
 	return connection;
 }

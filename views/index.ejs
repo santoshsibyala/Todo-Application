@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="todoAPP">
 
 
 <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" />
@@ -8,46 +8,70 @@
 <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
 <style>
 	#button{
-		height:350px;
+		height:100px;
 	}
 	.chatWrap{
 		border: 1px #000 solid;
 	}
+	.popupContainer{
+		display:none;
+	}
 </style>
-<body ng-app="todoAPP" style="background-image:url(/Photos/bg1.jpg">
+<body ng-controller="todoController as todo" style="background-image:url(/Photos/bg1.jpg">
 		<div class="container navbar navbar-default navbar-fixed-top">
 			<a href="" class='navbar-brand'>My Todo APP</a>
 			<ul class='nav navbar-nav navbar-right'>
 			
-        <li class=""><a href="#modal" id="modal_trigger" ng-click="login()">Login</a></li></ul></div><br/><br/>
-		<div class="container" ng-controller="todoController as todo">
+        <li class="" ng-show="loginHide"><a href="#modal" id="modal_trigger" >Login</a></li>
+        <li class="" ng-hide="loginHide"><a href="">Login as {{userEmail}}</a></li>
+        <li class="" ng-hide="loginHide" ng-click="logout()"><a href="">Logout</a></li></ul></div><br/><br/>
+		<div class="container" >
 			<div class="row " >
 				<br/>
 				<div class="col-md-4 chatWrap well well-lg">
-					<h3>All Tasks</h3>
-					<div id="button"></div>
-					<button ng-click="addTask()" class="btn btn-lg btn-primary">Add Task</button>
+					<div class="row">
+						<div class="col-md-6">
+							<h3>All Tasks</h3><br/>
+						</div>
+						<div class="col-md-3 col-md-offset-2">
+							<br/>	
+							<button ng-click="addTask()" class="btn btn-lg btn-primary">Add Task</button>
+						</div>
+					</div>	
+					
+					<div class="panel panel-danger" ng-repeat="x in results">
+
+					<div class=" panel-heading " >
+						<div class="row">
+						<div class="col-md-6">
+						<a href="" id="tasks"  value="{{x.task_id}}" ng-click="showTask()" >{{x.title}}</a></div>
+						<div class="col-md-3 col-md-offset-3">
+						<button class="btn btn_red" >Delete</button></div></div>
+					
+					</div></div>
+					
+					
 				</div>
-		
+				<form method="post">
 				<div class="col-md-7 col-md-offset-1 chatWrap well well-lg" ng-hide='hide'>
 					<div class="row">
 						<div class="col-md-8">
 							<h3 >Add Task</h3>
 						</div>
 						<div class="col-md-2">
-							<h6><button class="btn btn-lg btn-success" ng-click='save()'>Save</button></h6>
+							<h6><input type="submit" class="btn btn-lg btn-success" ng-click='save()'  value="Save"></h6>
 						</div>
 						<div class="col-md-2">
 							<h6><button class="btn btn-lg btn-danger">Cancel</button></h6>
 						</div>
 					</div>
 					<h4>Title</h4>
-					<input type="text" class="form-control" ng-model="title">
+					<input type="text" class="form-control" ng-model="title" required />
 					<h4>Task Details</h4>
-					<input type="text" class="form-control"  ng-model="taskDetails">
+					<input type="text" class="form-control"  ng-model="taskDetails" required />
 					<h4>Notes</h4>
-					<input type="text" class="form-control" ng-model="notes">
-					<h4>Date <input type="date"class="form-control" ng-model="date"></h4>
+					<input type="text" class="form-control" ng-model="notes" >
+					<h4>Date <input type="date" class="form-control" ng-model="date"></h4></form>
 <!-- 					<h4>Remainder <input type="checkbox" class="form-control" ng-model="remainder"></h4>
 					<h4>Repeat <input type="checkbox"class="form-control" ng-model="repeat"></h4> -->
 				</div>
@@ -57,9 +81,9 @@
 <div class="container">
 	
 
-	<div id="modal" class="popupContainer" style="display:none;">
+	<div id="modal" class="popupContainer">
 		<header class="popupHeader">
-			<span class="header_title">Login</span>
+			<span class="header_title" >Login</span>
 			<span class="modal_close"><i class="fa fa-times"></i></span>
 		</header>
 		
@@ -76,20 +100,20 @@
 
 			<!-- Username & Password Login form -->
 			<div class="user_login">
-				<form>
+				<form id="login">
 					<label>Email / Username</label>
-					<input type="text" />
+					<input type="text" ng-model="email"/>
 					<br />
 
 					<label>Password</label>
-					<input type="password" />
+					<input type="password" ng-model="password"/>
 					<br />
 
 					
 
 					<div class="action_btns">
 						<div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-						<div class="one_half last"><a href="#" class="btn btn_red">Login</a></div>
+						<div class="one_half last"><a href="#" class="btn btn_red" ng-click="login()">Login</a></div>
 					</div>
 				</form>
 
@@ -98,21 +122,21 @@
 
 			<!-- Register Form -->
 			<div class="user_register">
-				<form>
+				<form id="singupform">
 					
 					<label>Email Address</label>
-					<input type="email" />
+					<input type="email" ng-model="email" />
 					<br />
 
 					<label>Password</label>
-					<input type="password" />
+					<input type="password" ng-model="password"/>
 					<br />
 
 					
 
 					<div class="action_btns">
 						<div class="one_half"><a href="#" class="btn back_btn"><i class="fa fa-angle-double-left"></i> Back</a></div>
-						<div class="one_half last"><a href="#" class="btn btn_red">Register</a></div>
+						<div class="one_half last"><a href="#" class="btn btn_red" ng-click="register()">Register</a></div>
 					</div>
 				</form>
 			</div>
