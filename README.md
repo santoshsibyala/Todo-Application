@@ -4,17 +4,12 @@
 
 
 
-## Usage
-
-
-
-## Developing
 
 
 
 ### Tools
 
-Created with [Sublime]
+Created with [Sublime Text Editor using Angular.JS at Frontend and Node.JS at Backend. Used MYSQL database].
 
 ###How to run
 
