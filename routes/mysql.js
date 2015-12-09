@@ -16,6 +16,10 @@ function fetchData(sqlQuery,params,callback){
 	
 	console.log("\nSQL Query::"+sqlQuery);
 	var connection=getConnection();	
+
+	if(connection===false){
+		console.log("Database is not connected");
+	}
 	
 	
 	connection.query(sqlQuery,params, function(err, rows, fields) {
